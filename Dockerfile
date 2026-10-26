@@ -6,7 +6,8 @@ FROM decolua/9router:latest
 USER root
 
 # Install litestream (continuous SQLite replication to S3/R2) + sqlite CLI (to seed empty DB)
-RUN wget -qO- https://github.com/benbjohnson/litestream/releases/download/v0.3.13/litestream-v0.3.13-linux-amd64.tar.gz \
+# Litestream v0.5.17 — auto-detects S3-compatible providers (Filebase/Supabase/R2)
+RUN wget -qO- https://github.com/benbjohnson/litestream/releases/download/v0.5.17/litestream-0.5.17-linux-x86_64.tar.gz \
     | tar -xz -C /usr/local/bin \
     && chmod +x /usr/local/bin/litestream \
     && apk add --no-cache sqlite
