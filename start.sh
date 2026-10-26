@@ -31,6 +31,10 @@ if [ -n "$R2_BUCKET" ] && [ -n "$R2_ACCESS_KEY_ID" ] && [ -n "$R2_SECRET_ACCESS_
         sqlite3 "$DB_PATH" "VACUUM;" 2>/dev/null || touch "$DB_PATH"
     fi
     chown node:node "$DB_PATH" 2>/dev/null || true
+    # Fix permissions for 9router (needs write access to /app/data)
+    chown -R node:node /app/data 2>/dev/null || true
+    mkdir -p /app/data/db/backups 2>/dev/null || true
+    chown -R node:node /app/data/db/backups 2>/dev/null || true
 
     echo "[9router] Starting Litestream replication to Supabase with exec..."
     # Run Litestream as PID 1, executing 9router as child process
